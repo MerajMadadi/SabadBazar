@@ -12,11 +12,11 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>تصویر</th>
+                        {{--                        <th>تصویر</th>--}}
                         <th>نام محصول</th>
                         <th>دسته‌بندی</th>
                         <th>قیمت</th>
+                        <th>تخفیف</th>
                         <th>موجودی</th>
                         <th>فروشنده</th>
                         <th>تاریخ ثبت</th>
@@ -26,28 +26,39 @@
                     <tbody>
                     @foreach($products as $product)
                         <tr id="product-{{$product->id}}">
-                            <td>{{ toPersianNumber($loop->iteration) }}</td>
-                            <td><img src="{{ asset($product->image_url) }}" width="60" alt="{{$product->name}}"></td>
+                            {{--                            <td><img src="{{ asset($product->image_url) }}" width="60" alt="{{$product->name}}"></td>--}}
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->category->name ?? '-' }}</td>
-                            <td>{{ toPersianNumber(number_format($product->price - ($product->price * $product->discount/100))) }}
+                            <td>
+                                {{ toPersianNumber(number_format($product->price - ($product->price * $product->discount/100))) }}
                                 تومان
                             </td>
+                            <td>
+                                @if($product->discount)
+                                    <span class="label label-danger" style="font-size: 10px; margin-right: 5px;">
+                                           {{ toPersianNumber($product->discount) }}٪ تخفیف
+                                </span>
+                                @endif
+                            </td>
                             <td>{{toPersianNumber($product->stock)}}</td>
-                            <td>{{$product->user->email}}</td>
+                            <td>{{Str::limit($product->user->email,23)}}</td>
                             <td>{{ $product->created_at_jalali }}</td>
                             <td>
                                 <a href="{{ route('admin.product.show', $product->id) }}"
                                    class="btn btn-xs btn-info">مشاهده</a>
-                                <a href="{{ route('admin.product.edit', $product->id) }}"
-                                   class="btn btn-xs btn-primary">ویرایش</a>
-                                <form action="{{ route('admin.product.delete', $product->id) }}" method="POST"
-                                      style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button onclick="return confirm('حذف شود؟')" class="btn btn-xs btn-danger">حذف
-                                    </button>
-                                </form>
+                                @if (!empty($product->deleted_at))
+                                    {{'حذف شده'}}
+                                @else
+                                    <a href="{{ route('admin.product.edit', $product->id) }}"
+                                       class="btn btn-xs btn-primary">ویرایش</a>
+                                    <form action="{{ route('admin.product.delete', $product->id) }}" method="POST"
+                                          style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button onclick="return confirm('حذف شود؟')" class="btn btn-xs btn-danger">حذف
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -43,7 +43,7 @@
                         <td>
                             <a href="{{ route('user.admin.show', $user->id) }}" class="btn btn-xs btn-info">مشاهده</a>
                             @if (!empty($user->deleted_at)){{
-                            $deleted_user_massage = 'حذف شده'
+                            'حذف شده'
                             }}
                             @else
                             <a href="{{route('user.admin.edit',$user)}}" class="btn btn-xs btn-warning">ویرایش</a>

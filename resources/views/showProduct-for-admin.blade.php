@@ -18,7 +18,8 @@
                 <p style="font-size: 1.9rem; line-height: 1.6; color: #555;">
                     {{ $product->description }}
                 </p>
-                <div style="height: 50%;font-size: 14px" class="alert alert-info"><b>مشخصات :</b>{{$product->unit}}</div>
+                <div style="height: 50%;font-size: 14px" class="alert alert-info"><b>مشخصات :</b>{{$product->unit}}
+                </div>
 
                 @if($product->discount > 0)
                     @php
@@ -41,6 +42,24 @@
                 <span class="custom-comment-rate" style="font-size: 16px">
                     ★{{ round($averageRating, 1) }}
                 </span><br>
+                @if(!empty($product->deleted_at))
+                <a href="{{ route('admin.product.restore',$product->id) }}" class="btn btn-primary">بازگردانی</a><br>
+                @endif
+                <div style="height: 50%;font-size: 14px;margin-top: 10px" class="alert alert-info">
+                    <lable><b>اطلاعات فروشنده این محصول :</b></lable><br><br>
+                    نام :
+                    {{$product->user->name}}<br>
+                    ایمیل :
+                    {{$product->user->email}}<br>
+                    شماره مجوز :
+                    {{$product->user->license_number}}<br>
+                    نام فروشگاه :
+                    {{$product->user->store_name}}<br>
+                    شماره تماس فروشگاه :
+                    {{$product->user->store_phone}}<br>
+                    آدرس فروشگاه :
+                    {{$product->user->store_address}}
+                </div>
 
                 <hr>
 
@@ -52,9 +71,11 @@
 
                         <div class="custom-comments-list">
                             @foreach($product->comments->take(3) as $comment)
-                                <div class="custom-comment-card" style="position: relative; padding-bottom: 30px;"> {{-- جا برای دکمه حذف --}}
+                                <div class="custom-comment-card"
+                                     style="position: relative; padding-bottom: 30px;"> {{-- جا برای دکمه حذف --}}
                                     <div class="custom-comment-header">
-                                        <span class="custom-comment-user">{{ $comment->user->name ?? 'کاربر مهمان' }}</span>
+                                        <span
+                                            class="custom-comment-user">{{ $comment->user->name ?? 'کاربر مهمان' }}</span>
                                         <span class="custom-comment-rate">
                                                 @for($i = 1; $i <= 5; $i++)
                                                 {{ $i <= $comment->rate ? '★' : '☆' }}
@@ -66,17 +87,17 @@
                                     <div class="custom-comment-date">{{ $comment->created_at_jalali }}</div>
 
 
-                                            <form action="{{ route('admin.comment.delete', $comment->id) }}" method="POST"
-                                                  style="position: absolute; bottom: 5px; left: 5px;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" title="حذف"
-                                                        onclick="return confirm('آیا از حذف این دیدگاه مطمئن هستید؟')"
-                                                        style="background: none; border: none; color: #d9534f;
+                                    <form action="{{ route('admin.comment.delete', $comment->id) }}" method="POST"
+                                          style="position: absolute; bottom: 5px; left: 5px;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" title="حذف"
+                                                onclick="return confirm('آیا از حذف این دیدگاه مطمئن هستید؟')"
+                                                style="background: none; border: none; color: #d9534f;
                                        font-size: 18px; cursor: pointer;">
-                                                    🗑
-                                                </button>
-                                            </form>
+                                            🗑
+                                        </button>
+                                    </form>
 
                                 </div>
                             @endforeach
@@ -96,7 +117,8 @@
                                     @foreach($product->comments->skip(3) as $comment)
                                         <div class="custom-comment-card">
                                             <div class="custom-comment-header">
-                                                <span class="custom-comment-user">{{ $comment->user->name ?? 'کاربر مهمان' }}</span>
+                                                <span
+                                                    class="custom-comment-user">{{ $comment->user->name ?? 'کاربر مهمان' }}</span>
                                                 <span class="custom-comment-rate">
                                                     @for($i = 1; $i <= 5; $i++)
                                                         {{ $i <= $comment->rate ? '★' : '☆' }}

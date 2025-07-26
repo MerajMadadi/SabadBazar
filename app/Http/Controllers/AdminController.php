@@ -24,6 +24,7 @@ class AdminController extends Controller
         $users = User::withTrashed()->latest()->paginate(20);
         return view('users', compact('users'));
     }
+
     public function edit(string $id)
     {
         $user = User::where('id', $id)->firstOrFail();
@@ -54,8 +55,9 @@ class AdminController extends Controller
             $user->roles()->detach();
             $user->roles()->attach($request->role);
         }
-        return redirect('/panel/users')->with('success','اطلاعات کاربر به روزرسانی شد');
+        return redirect('/panel/users')->with('success', 'اطلاعات کاربر به روزرسانی شد');
     }
+
     public function delete_user(string $id)
     {
         $user = User::where('id', $id)->firstOrFail();
@@ -68,6 +70,7 @@ class AdminController extends Controller
         $user = User::withTrashed()->where('id', $id)->firstOrFail();
         return view('show-user-for-admin', compact('user'));
     }
+
     public function restore_user(string $id)
     {
         $user = User::withTrashed()->where('id', $id)->firstOrFail();
@@ -85,9 +88,9 @@ class AdminController extends Controller
 
     public function show_product(string $id)
     {
-        $product = Product::where('id', $id)->firstOrFail();
+        $product = Product::withTrashed()->where('id', $id)->firstOrFail();
         $averageRating = $product->comments()->avg('rate') ?? 0;
-        $comments = Comment::where('product_id', $id)->get();
+        $comments = Comment::withTrashed()->where('product_id', $id)->get();
 
         return view('showProduct-for-admin', compact('product', 'averageRating', 'comments'));
     }
@@ -141,14 +144,20 @@ class AdminController extends Controller
     public function delete_product(string $id)
     {
         $product = Product::findOrFail($id);
-        if ($product->image_url) {
-            $imagePath = str_replace('/storage/', 'public/', $product->image_url);
-            Storage::delete($imagePath);
-        }
+//        if ($product->image_url) {
+//            $imagePath = str_replace('/storage/', 'public/', $product->image_url);
+//            Storage::delete($imagePath);
+//        }
         $product->delete();
 
         return redirect('/panel/products')->with('با موفقیت حذف شد');
 
+    }
+    public function restore_product(string $id)
+    {
+        $product = Product::withTrashed()->where('id',$id)->firstOrFail();
+        $product->restore();
+        return redirect()->route('admin.products');
     }
 
     public function store_category(CategoryCreateRequest $request)
@@ -222,14 +231,14 @@ class AdminController extends Controller
             'address' => $request->address,
         ]);
 
-        return redirect()->route('admin.delivery.centers')->with('success','مرکز تحویل با موفقیت ثبت شد');
+        return redirect()->route('admin.delivery.centers')->with('success', 'مرکز تحویل با موفقیت ثبت شد');
     }
 
     public function delivery_center_delete(string $id)
     {
         $center = DeliveryCenters::where('id', $id)->firstOrFail();
         $center->delete();
-        return redirect()->back()->with('success','مرکز تحویل با موفقیت حذف شد');
+        return redirect()->back()->with('success', 'مرکز تحویل با موفقیت حذف شد');
     }
 
     public function delivery_centers()
@@ -237,15 +246,18 @@ class AdminController extends Controller
         $centers = DeliveryCenters::all();
         return view('delivery-centers', compact('centers'));
     }
+
     public function delete_comment(string $id)
     {
         Comment::where('id', $id)->delete();
         return redirect()->back();
     }
+
     public function generate_password()
     {
-        return response()->json(['password' => \Illuminate\Support\Str::password(10,true,true,false)]);
+        return response()->json(['password' => \Illuminate\Support\Str::password(10, true, true, false)]);
     }
+
     public function information_order(string $id)
     {
         $transaction = Transaction::with(['cart.cartItems' => function ($query) {

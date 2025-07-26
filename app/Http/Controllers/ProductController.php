@@ -144,10 +144,10 @@ class ProductController extends Controller
     public function delete(string $id)
     {
         $product = Product::findOrFail($id);
-        if ($product->image_url) {
-            $imagePath = str_replace('/storage/', 'public/', $product->image_url);
-            Storage::delete($imagePath);
-        }
+//        if ($product->image_url) {
+//            $imagePath = str_replace('/storage/', 'public/', $product->image_url);
+//            Storage::delete($imagePath);
+//        }
         $product->delete();
 
         return redirect('/my-products')->with('با موفقیت حذف شد');

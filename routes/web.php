@@ -144,6 +144,7 @@ Route::middleware(['role.admin'])->prefix('/panel')->group(function () {
     Route::delete('/delivery/centers/delete/{id}', [AdminController::class, 'delivery_center_delete'])->name('center.delete');
     Route::get('/generate-password', [AdminController::class, 'generate_password'])->name('generate.password');
     Route::get('/order/{id}', [AdminController::class, 'information_order'])->name('admin.order.show');
+    Route::get('/products/restore/{id}',[AdminController::class, 'restore_product'])->name('admin.product.restore');
 });
 /**/
 
