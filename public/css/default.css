@@ -9994,7 +9994,7 @@ label {
 
 .rating {
     direction: rtl;
-    unicode-bidi: bidi-override;
+    /*unicode-bidi: bidi-override;*/
     display: inline-block;
 }
 

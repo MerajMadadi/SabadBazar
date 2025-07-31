@@ -3,7 +3,7 @@
     <!--شروع محصولات-->
     @user
     {{--    قابلیت مشاهده برای همه جز فروشنده و مدیر--}}
-    <section class="products rt-relative rt-overflow rt">
+    <section class="products rt-relative rt-overflow rt" style="margin-top: 10px;border-radius: 20px">
         <div class="main">
             @if ($errors->any())
                 <ul class="px-4 py-2 bg-red-100 text-red-600 rounded">
@@ -13,7 +13,7 @@
                     @endforeach
                 </ul>
             @endif
-            <h3 style="margin-top: -30px" class="title-assign rt rt-bold rt-333 rt-relative rt-23 rt-align">فروش
+            <h3 style="margin-top: -25px" class="title-assign rt rt-bold rt-333 rt-relative rt-23 rt-align">فروش
                 ویژه</h3>
             <div class="flexbox">
                 <div class="entry rt">
@@ -53,7 +53,7 @@
                                             <i class="fa fa-shopping-bag"></i> پرداخت در فروشگاه
                                         </div>
                                         <div class="rating">★
-                                            {{ toPersianNumber(round($product->comments->avg('rate') ?? 0,1)) }}</div>
+                                            {{ toPersianNumber(round($product->comments()->avg('rate') ?? 0,1)) }}</div>
                                     </div>
                                     @user
                                     @if($product->stock > 0)

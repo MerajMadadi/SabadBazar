@@ -21,6 +21,7 @@ class CommentController extends Controller
         $products = Product::where('discount', '>', 0)->orderby('discount', 'desc')->take(8)->get();
         $categories = Category::all();
         $comments = Comment::all();
+
         return view('index', compact('products', 'categories', 'centers', 'comments'));
     }
 
@@ -33,7 +34,7 @@ class CommentController extends Controller
             'rate' => $request->rating
         ]);
 
-        return redirect('/show/' . $product->id . '#comments');
+        return redirect('/product/show/' . $product->id . '#comments');
     }
 
     public function update(Request $request, string $id)

@@ -101,10 +101,10 @@
                                 <div class="custom-product-desc">{{ Str::limit($product->description, 25) }}</div>
 
                                 @if($product->discount > 0)
-                                    <div class="custom-product-old-price">{{ number_format($product->price) }} تومان</div>
-                                    <div class="custom-product-price">{{ number_format($product->price - ($product->price * $product->discount / 100)) }} تومان</div>
+                                    <div class="custom-product-old-price">{{ toPersianNumber(number_format($product->price)) }} تومان</div>
+                                    <div class="custom-product-price">{{ toPersianNumber(number_format($product->price - ($product->price * $product->discount / 100))) }} تومان</div>
                                 @else
-                                    <div class="custom-product-price">{{ number_format($product->price) }} تومان</div>
+                                    <div class="custom-product-price">{{ toPersianNumber(number_format($product->price)) }} تومان</div>
                                 @endif
 
                                 <div class="custom-product-category">

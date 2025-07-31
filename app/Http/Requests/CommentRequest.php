@@ -14,14 +14,25 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment' => ['required', 'string','max:1000', function ($attribute, $value, $fail) {
+            'comment' => ['nullable', 'string','max:1000', function ($attribute, $value, $fail) {
                 if ($this->containsBadWords($value)) {
                     $fail('لطفاً از به‌کار بردن کلمات ناپسند خودداری کنید.');
                 }
             },
-                'rating' => 'nullable',
+                'rating' => ['nullable','between:0,5'],
             ],
         ];
+    }
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $content = $this->input('comment');
+            $rate = $this->input('rating');
+
+            if (empty($content) && empty($rate)) {
+                $validator->errors()->add('comment', 'نوشتن متن یا انتخاب امتیاز حداقل یکی الزامی است.');
+            }
+        });
     }
 
     protected function containsBadWords($text): bool

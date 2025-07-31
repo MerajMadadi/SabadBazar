@@ -87,6 +87,7 @@ Route::get('/page', function () {
 
 Route::get('/product/show/{id}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/products/{id}', [CategoryController::class, 'index'])->name('category.index');
+
 /*seller*/
 Route::middleware(['role.seller'])->group(function () {
     Route::post('/category/add', [CategoryController::class, 'store'])->name('category.store');
@@ -117,10 +118,7 @@ Route::middleware(['role.admin'])->prefix('/panel')->group(function () {
     Route::delete('/ticket/destroy/{id}', [TicketController::class, 'destroy'])->name('ticket.destroy');
     Route::post('/ticket/close/{id}', [TicketController::class, 'close'])->name('ticket.close');
     Route::delete('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.admin.delete');
-    Route::get('/tickets', function () {
-        $tickets = Ticket::orderby('created_at', 'asc')->get();
-        return view('tickets-for-admin', compact('tickets'));
-    })->name('tickets.admin');
+    Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.admin');
     Route::get('/users', [AdminController::class, 'showUsers'])->name('admin.users');
     Route::get('/user/restore/{id}', [AdminController::class, 'restore_user'])->name('user.restore');
     Route::get('/user/edit/{user}', [AdminController::class, 'edit'])->name('user.admin.edit');
@@ -144,10 +142,12 @@ Route::middleware(['role.admin'])->prefix('/panel')->group(function () {
     Route::delete('/delivery/centers/delete/{id}', [AdminController::class, 'delivery_center_delete'])->name('center.delete');
     Route::get('/generate-password', [AdminController::class, 'generate_password'])->name('generate.password');
     Route::get('/order/{id}', [AdminController::class, 'information_order'])->name('admin.order.show');
-    Route::get('/products/restore/{id}',[AdminController::class, 'restore_product'])->name('admin.product.restore');
+    Route::get('/products/restore/{id}', [AdminController::class, 'restore_product'])->name('admin.product.restore');
 });
 /**/
 
 
-
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});
 

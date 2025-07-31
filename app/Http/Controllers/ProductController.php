@@ -79,6 +79,7 @@ class ProductController extends Controller
         $comments = Comment::where('product_id', $id)->get();
         $product = Product::where('id', $id)->firstOrFail();
         $averageRating = $product->comments()->avg('rate') ?? 0;
+
         return view('showProduct', compact('product', 'comments', 'averageRating'));
     }
 

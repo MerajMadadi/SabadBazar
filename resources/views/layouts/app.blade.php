@@ -12,10 +12,6 @@
 
 </head>
 <body>
-@php
-    use App\Models\Category;
-    $categories = Category::all();
-@endphp
     <!--شروع هدر-->
 <header class="header">
     <div class="main rt-relative">
@@ -37,21 +33,31 @@
                     @endseller
                     @user
                     <li>
-                        <a href="{{route('products.index')}}">محصولات<i class="fa fa-angle-down"></i></a>
+                        <a href="">دسته بندی ها<i class="fa fa-angle-down"></i></a>
                         <i class="fa fa-angle-down left rt-18"></i>
                         <ul class="rt-absolute rt-bg rt-shadow rt-14 rt-10px">
+                            @php
+                                $categories = App\Models\Category::take(3)->get();
+                            @endphp
                             @foreach($categories as $category)
                                 <li class="rt"><a
                                         href="{{ route('category.index', 'id') }}#category-{{ $category->id }}"
                                         class="rt rt-444">{{ $category->name }}</a></li>
                             @endforeach
+                                <li class="rt"><a
+                                        href="{{ route('products.index') }}"
+                                        class="rt rt-444"><i style='font-size:14px' class='fas'>&#xf245;</i>
+                                        <b>مشاهده بیشتر</b></a></li>
                         </ul>
                     </li>
                     @enduser
                     @customer
-                    <li><a href="/ticket"><i class="fa fa-angle-down"></i>ثبت تیکت</a>
+                    <li><a href=""><i class="fa fa-angle-down"></i>پشتیبانی</a>
                         <i class="fa fa-angle-down left rt-18"></i>
                         <ul class="rt-absolute rt-bg rt-shadow rt-14 rt-10px">
+                            <li class="rt"><a
+                                    href="/ticket"
+                                    class="rt rt-444">ثبت تیکت</a></li>
                             <li class="rt"><a
                                     href="/my-tickets"
                                     class="rt rt-444">تیکت های من</a></li>
@@ -65,9 +71,6 @@
                         </a>
                     </li>
                     @endcustomer
-                    @admin
-                    <li><a href="/tickets">تیکت مشتریان</a></li>
-                    @endadmin
                     @auth
                         <li class="profile-dropdown-parent">
                             <a href="" class="profile-link">
@@ -106,6 +109,9 @@
 <!--پایان هدر-->
 <div style="margin-top: 50px" class="container">
     @yield('content')
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 </div>
 {{--footer--}}
 <!--شروع فوتر-->

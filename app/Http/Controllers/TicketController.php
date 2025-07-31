@@ -16,7 +16,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::orderby('created_at', 'asc')->get();
+        return view('tickets-for-admin', compact('tickets'));
     }
 
     /**
@@ -91,7 +92,7 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-/*     close ticket*/
+    /*     close ticket*/
     public function close(string $id)
     {
         Ticket::where('id', $id)->update([
@@ -100,9 +101,10 @@ class TicketController extends Controller
 
         return redirect()->route('tickets.admin');
     }
+
     public function destroy(string $id)
     {
         Ticket::where('id', $id)->delete();
-        return redirect('/tickets');
+        return redirect()->route('tickets.admin');
     }
 }

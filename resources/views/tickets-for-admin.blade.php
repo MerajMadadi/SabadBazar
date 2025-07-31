@@ -3,10 +3,6 @@
 
 @section('content')
 
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
         @if($tickets->count())
             <div class="table-responsive">
                 <table class="table table-bordered table-striped text-center">

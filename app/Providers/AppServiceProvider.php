@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('admin', function () {
             return auth()->check() && auth()->user()->roles()->first()?->name==='مدیر';
         });
+        //هرکی جز ادمین
         Blade::if('all', function () {
             return !auth()->check() || auth()->user()->roles()->first()?->name !=='مدیر';
         });

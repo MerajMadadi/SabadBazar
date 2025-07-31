@@ -39,7 +39,7 @@
                     </p>
                 @endif
                 <span class="custom-comment-rate" style="font-size: 16px">
-                    ★{{ round($averageRating, 1) }}
+                    ★{{ toPersianNumber(round($averageRating, 1)) }}
                 </span><br>
 
                 <hr>
@@ -83,7 +83,7 @@
                     <form action="{{ route('comment.store', $product->id) }}" method="POST" class="comment-form"
                           style="display: none;" onsubmit="this.querySelector('button').disabled = true;">
                         @csrf
-                        <textarea name="comment" placeholder="نظر خود را وارد کنید..." required></textarea>
+                        <textarea name="comment" placeholder="نظر خود را وارد کنید..."></textarea>
 
                         <button style="background: #69982D" type="submit">ارسال نظر</button>
 
