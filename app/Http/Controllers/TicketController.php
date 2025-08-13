@@ -14,18 +14,20 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
+//    admin
     public function index()
     {
-        $tickets = Ticket::orderby('created_at', 'asc')->get();
+        $tickets = Ticket::orderby('created_at', 'desc')->get();
         return view('tickets-for-admin', compact('tickets'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function my_tickets()
     {
-        //
+        $tickets = Ticket::where('user_id', Auth::id())->latest()->paginate(10);
+        return view('my-tickets', compact('tickets'));
     }
 
     /**
@@ -84,9 +86,9 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function ticket()
     {
-        //
+        return view('ticket');
     }
 
     /**

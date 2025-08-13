@@ -39,12 +39,20 @@ class ProductController extends Controller
         $comments = Comment::all();
         return view('products', compact('categories', 'products', 'comments'));
     }
+
+    public function seller_index()
+    {
+        $categories = Category::all();
+        $products = Product::where('user_id', Auth::id())->get();
+        return view('my-products', compact('products', 'categories'));
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-//
+        $categories = Category::all();
+        return view('product-create', compact('categories'));
     }
 
     /**
@@ -136,7 +144,7 @@ class ProductController extends Controller
             'image_url' => $publicPath,
         ]);
 
-        return redirect('/my-products')->with('success', '<UNK> <UNK> <UNK> <UNK> <UNK>.');
+        return redirect('/my-products')->with('success', 'محصول با موفقیت ویرایش شد.');
     }
 
     /**
@@ -145,10 +153,7 @@ class ProductController extends Controller
     public function delete(string $id)
     {
         $product = Product::findOrFail($id);
-//        if ($product->image_url) {
-//            $imagePath = str_replace('/storage/', 'public/', $product->image_url);
-//            Storage::delete($imagePath);
-//        }
+        //        عکس ها رو برای امنیت حذف نمیکنیم
         $product->delete();
 
         return redirect('/my-products')->with('با موفقیت حذف شد');

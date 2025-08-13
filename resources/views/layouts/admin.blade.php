@@ -9,52 +9,81 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body>
 
-<header class="header">
-    <div class="main rt-relative">
-        <div class="entery rt rt-absolute rt-10px rt-bg">
-            <div class="main">
-                <a href="/"><img src="{{asset('img/logo.png')}}" class="logo right"></a>
-                <ul class="menu rt-align rt-15 right">
+<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- لوگو و دکمه موبایل -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar">
+                    <span class="sr-only">نمایش منو</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img src="{{asset('img/logo.png')}}" style="max-height: 30px;margin-top: -5px" alt="لوگو">
+                </a>
+            </div>
+
+            <!-- لینک‌های منو -->
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{route('admin.dashboard')}}">داشبورد</a></li>
                     <li><a href="/panel/users">کاربران</a></li>
                     <li><a href="{{route('admin.products')}}">محصولات</a></li>
                     <li><a href="{{route('admin.orders')}}">سفارشات</a></li>
-                    <li><a href="/panel/tickets">تیکت‌ها</a></li>
-                    <li><a href="{{route('admin.delivery.centers')}}">مراکز تحویل</a></li>
-                    <li class="profile-dropdown-parent">
-                        <a href="" class="profile-link">
-                            {{ auth()->user()->name }}
-                            <i class="fa fa-user"></i>
+                    <li>
+                        <a href="/panel/tickets">
+                            تیکت‌ها
+                            @if(!empty($openTicketsCount) && $openTicketsCount > 0)
+                                <span class="badge" style="background-color: red; color: white; font-size: 11px">
+                {{ $openTicketsCount }}
+              </span>
+                            @endif
                         </a>
-                        <ul class="profile-dropdown">
+                    </li>
+                    <li><a href="{{route('admin.delivery.centers')}}">مراکز تحویل</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ auth()->user()->name }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
                             <li class="role">نقش: {{ auth()->user()->roles()->first()?->name ?? 'ندارد' }}</li>
-                            <li><a href="/profile" style="color: #00bfa5" class="dropdown-item"> مشاهده<b>
-                                        پروفایل </b> </a></li>
+                            <li><a href="/profile" style="color: #00bfa5">مشاهده پروفایل</a></li>
                             <li>
-                                <form method="POST" action="{{ route('logout') }}"
-                                      onsubmit="this.querySelector('button').disabled = true;">
+                                <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="btn-logout">خروج</button>
+                                    <button type="submit" class="btn btn-link" style="color:red">خروج</button>
                                 </form>
                             </li>
                         </ul>
                     </li>
-
                 </ul>
             </div>
         </div>
-    </div>
-</header>
+    </nav>
 
-<div style="margin-top: 80px;" class="container">
+<div id="org-admin-container" class="container">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">@yield('title')</h3>
         </div>
         <div class="panel-body">
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
             @yield('content')
         </div>
     </div>

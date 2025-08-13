@@ -27,7 +27,7 @@
                                         </span><br>
 
                                         <span style="color: #374151;">
-                                        {{ $product->user->store_name }}
+                                        {{ $product->user->store_name ?? "" }}
                                         </span>
                                         <hr>
 

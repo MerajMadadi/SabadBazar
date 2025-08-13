@@ -42,7 +42,7 @@ class UserController extends Controller
             'license_number' => $request->license_number,
         ]);
         /*is seller?*/
-        if (!empty($request->store_name)) {
+        if ($request->store_name) {
             $role = Role::where('name', 'فروشنده')->first();
             $user->roles()->attach($role->id);
         } else
@@ -60,7 +60,6 @@ class UserController extends Controller
     function login(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
-        /*authenticate*/
         if (!$user) {
             return redirect('/login')->withErrors(['ایمیل وارد شده وجود ندارد'])->withInput();
         }
@@ -71,11 +70,11 @@ class UserController extends Controller
         auth()->login($user);
 
         $token = $user->createtoken('token')->plainTextToken;
+
         /*        اگرمدیر بود به پنل مدیریت بره*/
         if (\auth()->user()->roles()->first()->name == 'مدیر') {
             return redirect('/panel/dashboard')->with(['token' => $token, 'user' => $user]);
         } else
-
             return redirect('/')->with(['token' => $token, 'user' => $user]);
     }
 
@@ -93,7 +92,6 @@ class UserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
-            'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
             'store_name' => $request->store_name,
             'store_phone' => $request->store_phone,
             'store_address' => $request->store_address,
@@ -122,6 +120,6 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->firstOrFail();
         $user->delete();
-        return redirect('/')->with('massage', '.حساب کاربری تان حذف شد');
+        return redirect('/')->with('message', 'حساب کاربری تان حذف شد.');
     }
 }

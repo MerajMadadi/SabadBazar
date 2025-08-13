@@ -1,17 +1,19 @@
 @extends('layouts.admin')
 
 @section('title', 'ویرایش کاربر')
-
+<script>
+    function fetchRandomPassword() {
+        fetch('{{ route('generate.password') }}')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('password').value = data.password;
+            })
+            .catch(err => alert("خطا در تولید رمز"));
+    }
+</script>
 @section('content')
     <div class="panel panel-default">
         <div class="panel-body">
-            @if ($errors->any())
-                <ul class="px-4 py-2 bg-red-100 text-red-600 rounded">
-                    @foreach($errors->all() as $error)
-                        <li style="color: red;font-size: 16px" class="my-2"><b>_</b> {{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
             <form method="POST" action="{{ route('user.admin.update', $user->id) }}"
                   onsubmit="this.querySelector('button').disabled = true;">
                 @csrf
@@ -40,16 +42,7 @@
                            style="flex: 1;"/>
                     <button type="button" class="btn btn-default" onclick="fetchRandomPassword()">رمز تصادفی</button>
                 </div>
-                <script>
-                    function fetchRandomPassword() {
-                        fetch('{{ route('generate.password') }}')
-                            .then(res => res.json())
-                            .then(data => {
-                                document.getElementById('password').value = data.password;
-                            })
-                            .catch(err => alert("خطا در تولید رمز"));
-                    }
-                </script>
+
 
                 @if($user->roles()->first()->name=='فروشنده')
                 <div class="form-group">
@@ -86,7 +79,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">ذخیره تغییرات</button>
-                <a href="{{--{{ route('user.admin.update',$user->id) }}--}}" class="btn btn-default">انصراف</a>
+                <a href="/panel/users" class="btn btn-default">انصراف</a>
             </form>
         </div>
     </div>

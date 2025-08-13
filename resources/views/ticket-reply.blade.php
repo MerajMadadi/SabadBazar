@@ -1,8 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title', 'مشاهده تیکت')
 
 @section('content')
-    <div class="container" style="margin-bottom: 10px;">
         <h2>مشاهده تیکت</h2>
         <hr>
 
@@ -29,14 +28,14 @@
                     $reply_to_ticket = \App\Models\TicketReply::where('ticket_id',$ticket->id)->first();
                 @endphp
                 @if(!empty($reply_to_ticket))
-                    <form style="width: 10%" action="{{route('ticket.close',$ticket->id)}}" method="post">
+                    <form id="close-ticket-form" action="{{route('ticket.close',$ticket->id)}}" method="post">
                         <p>
                             @csrf
                             <button class="btn btn-primary btn-block">بستن تیکت</button>
                         </p>
                     </form>
                 @endif
-                <form style="width: 10%" action="{{route('ticket.destroy', $ticket->id)}}" method="POST">
+                <form id="reply-ticket-form" action="{{route('ticket.destroy', $ticket->id)}}" method="POST">
                     @csrf
                     @method('DELETE')
                     <p>
@@ -78,5 +77,4 @@
                 این تیکت بسته شده است و امکان پاسخ‌گویی وجود ندارد.
             </div>
         @endif
-    </div>
 @endsection

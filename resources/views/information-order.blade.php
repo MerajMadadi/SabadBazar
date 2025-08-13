@@ -16,48 +16,50 @@
             $cart_items = \App\Models\Cart_Item::withTrashed()->where('cart_id', $cart->id)->get();
             @endphp
             @if($cart && $cart_items->count())
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>تصویر</th>
-                        <th>محصول</th>
-                        <th>قیمت واحد</th>
-                        <th>تعداد</th>
-                        <th>جمع</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($cart_items as $item)
+                <div class="information-order-table-wrapper">
+                    <table class="information-order-table table table-bordered table-striped">
+                        <thead>
                         <tr>
-                            <td>
-                                @if($item->product)
-                                    <img src="{{ asset($item->product->image_url) }}" width="50" alt="{{$item->product->name}}">
-                                @else
-                                    <span class="text-muted">حذف شده</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->product)
-                                    {{ $item->product->name }}
-                                @else
-                                    <em class="text-muted">محصول حذف شده</em>
-                                @endif
-                            </td>
-                            @php
-                                $price = $item->product ? ($item->product->price - ($item->product->price * $item->product->discount / 100)) : $item->price;
-                            @endphp
-                            <td>{{ number_format($price) }} تومان</td>
-                            <td>{{ $item->quantity }}</td>
-                            <td>{{ number_format($price * $item->quantity) }} تومان</td>
+                            <th>تصویر</th>
+                            <th>محصول</th>
+                            <th>قیمت واحد</th>
+                            <th>تعداد</th>
+                            <th>جمع</th>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p class="text-danger">اطلاعات اقلام این سفارش موجود نیست.</p>
-            @endif
+                        </thead>
+                        <tbody>
+                        @foreach($cart_items as $item)
+                            <tr>
+                                <td>
+                                    @if($item->product)
+                                        <img src="{{ asset($item->product->image_url) }}" width="50"
+                                             alt="{{$item->product->name}}">
+                                    @else
+                                        <span class="text-muted">حذف شده</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->product)
+                                        {{ $item->product->name }}
+                                    @else
+                                        <em class="text-muted">محصول حذف شده</em>
+                                    @endif
+                                </td>
+                                @php
+                                    $price = $item->product ? ($item->product->price - ($item->product->price * $item->product->discount / 100)) : $item->price;
+                                @endphp
+                                <td>{{ number_format($price) }} تومان</td>
+                                <td>{{ $item->quantity }} عدد</td>
+                                <td>{{ number_format($price * $item->quantity) }} تومان</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                        <p class="text-danger">اطلاعات اقلام این سفارش موجود نیست.</p>
+                    @endif
 
-            <a href="{{--{{ route('orders.index') }}--}}" class="btn btn-default">بازگشت به لیست سفارش‌ها</a>
+                    <a href="{{--{{ route('orders.index') }}--}}" class="btn btn-default">بازگشت به لیست سفارش‌ها</a>
+                </div>
         </div>
-    </div>
 @endsection

@@ -22,14 +22,6 @@
 </style>
 @section('content')
     <div class="payment-box">
-        @if ($errors->any())
-            <ul class="px-4 py-2 bg-red-100 text-red-600 rounded">
-                @foreach($errors->all() as $error)
-                    <li style="text-align: center;margin-bottom: 40px;color: red;font-size: 16px" class="my-2">
-                        <b><b>_</b> {{ $error }}</b></li>
-                @endforeach
-            </ul>
-        @endif
         {{--    <h2>درگاه پرداخت شبیه‌سازی شده</h2>--}}
         <form method="POST" action="{{ route('payment.process') }}">
             @csrf

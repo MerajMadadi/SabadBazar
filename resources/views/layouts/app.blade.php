@@ -9,10 +9,37 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @media (min-width: 768px) {
+            li:hover > ul.rt-absolute,
+            li:hover > ul.profile-dropdown {
+                display: block !important;
+                visibility: visible;
+                opacity: 1;
+            }
+            ul.rt-absolute,
+            ul.profile-dropdown {
+                display: none;
+                visibility: hidden;
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+        }
+        #org-container {
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            #org-container {
+                margin-top: 0;
+            }
+        }
+    </style>
 
 </head>
 <body>
-    <!--شروع هدر-->
+<!--شروع هدر-->
 <header class="header">
     <div class="main rt-relative">
         <div class="top rt">
@@ -33,35 +60,32 @@
                     @endseller
                     @user
                     <li>
-                        <a href="">دسته بندی ها<i class="fa fa-angle-down"></i></a>
+                        <a href="javascript:void(0)" class="menu-toggle">
+                            دسته بندی ها <i class="fa fa-angle-down"></i>
+                        </a>
                         <i class="fa fa-angle-down left rt-18"></i>
                         <ul class="rt-absolute rt-bg rt-shadow rt-14 rt-10px">
-                            @php
-                                $categories = App\Models\Category::take(3)->get();
-                            @endphp
+                            @php $categories = App\Models\Category::take(3)->get(); @endphp
                             @foreach($categories as $category)
                                 <li class="rt"><a
                                         href="{{ route('category.index', 'id') }}#category-{{ $category->id }}"
                                         class="rt rt-444">{{ $category->name }}</a></li>
                             @endforeach
-                                <li class="rt"><a
-                                        href="{{ route('products.index') }}"
-                                        class="rt rt-444"><i style='font-size:14px' class='fas'>&#xf245;</i>
-                                        <b>مشاهده بیشتر</b></a></li>
+                            <li class="rt"><a href="{{ route('products.index') }}" class="rt rt-444">
+                                    <i style='font-size:14px' class='fas'>&#xf245;</i> <b>مشاهده بیشتر</b></a>
+                            </li>
                         </ul>
                     </li>
+
                     @enduser
                     @customer
-                    <li><a href=""><i class="fa fa-angle-down"></i>پشتیبانی</a>
-                        <i class="fa fa-angle-down left rt-18"></i>
+                    <li>
+                        <a href="javascript:void(0)" class="menu-toggle">
+                            <i class="fa fa-angle-down"></i> پشتیبانی
+                        </a>
                         <ul class="rt-absolute rt-bg rt-shadow rt-14 rt-10px">
-                            <li class="rt"><a
-                                    href="/ticket"
-                                    class="rt rt-444">ثبت تیکت</a></li>
-                            <li class="rt"><a
-                                    href="/my-tickets"
-                                    class="rt rt-444">تیکت های من</a></li>
-
+                            <li class="rt"><a href="/ticket" class="rt rt-444">ثبت تیکت</a></li>
+                            <li class="rt"><a href="/my-tickets" class="rt rt-444">تیکت های من</a></li>
                         </ul>
                     </li>
                     <li style="margin-right: 6px;">
@@ -73,17 +97,21 @@
                     @endcustomer
                     @auth
                         <li class="profile-dropdown-parent">
-                            <a href="" class="profile-link">
+                            <a href="javascript:void(0)" class="menu-toggle profile-link">
                                 {{ auth()->user()->name }}
                                 <i class="fa fa-user"></i>
+                                <i class="fa fa-angle-down left rt-18"></i> {{-- فلش رو به پایین اضافه شد --}}
                             </a>
-                            <ul class="profile-dropdown">
+                            <ul class="profile-dropdown rt-absolute rt-bg rt-shadow rt-14 rt-10px">
                                 <li class="role">نقش: {{ auth()->user()->roles()->first()?->name ?? 'ندارد' }}</li>
-                                <li><a href="{{route('show.profile')}}" style="color: #00bfa5" class="dropdown-item"> مشاهده<b>
-                                            پروفایل </b> </a></li>
+                                <li><a href="{{route('show.profile')}}" style="color: #00bfa5" class="dropdown-item">مشاهده
+                                        <b>پروفایل</b></a></li>
+                                @customer
                                 <li><a href="{{route('customer.orders')}}" style="color: #00bfa5" class="dropdown-item">لیست
-                                        <b>سفارشات</b> </a></li>
+                                        <b>سفارشات</b></a></li>
                                 <li>
+                                    @endcustomer
+
                                     <form method="POST" action="{{ route('logout') }}"
                                           onsubmit="this.querySelector('button').disabled = true;">
                                         @csrf
@@ -98,7 +126,8 @@
                     @endguest
                 </ul>
                 <form method="GET" action="{{route('search')}}" class="search rt-8px rt-overflow left">
-                    <input type="text" name="search" placeholder="نام محصول مورد نظر رو وارد کنید" class="right input rt-444 rt-13">
+                    <input type="text" name="search" placeholder="نام محصول مورد نظر رو وارد کنید"
+                           class="right input rt-444 rt-13">
                     <button class="sub left rt-pointer rt-16 rt-color rt-666 rt-center"><i class="fa fa-search"></i>
                     </button>
                 </form>
@@ -106,12 +135,60 @@
         </div>
     </div>
 </header>
+{{--    برای رفع باگ منو در حالت موبایل و اسکرول نرم//--}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (window.innerWidth < 768) {
+            const toggles = document.querySelectorAll('.menu-toggle');
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelectorAll('ul.rt-absolute, ul.profile-dropdown').forEach(menu => {
+                        if (!menu.contains(this.nextElementSibling)) {
+                            menu.classList.remove('open');
+                        }
+                    });
+
+                    const parentLi = this.closest('li');
+                    const submenu = parentLi.querySelector('ul');
+                    if (submenu) {
+                        submenu.classList.toggle('open');
+                    }
+                });
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.menu-toggle')) {
+                    document.querySelectorAll('ul.rt-absolute, ul.profile-dropdown').forEach(menu => {
+                        menu.classList.remove('open');
+                    });
+                }
+            });
+        }
+    });
+</script>
 <!--پایان هدر-->
-<div style="margin-top: 50px" class="container">
-    @yield('content')
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+<div id="org-container" class="container">
+    @if ($errors->any())
+        <div class="alert alert-danger" style="margin-top: 5px">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
+    @if(session('success'))
+        <div class="alert alert-success" style="margin-top: 5px">{{ session('success') }}</div>
+    @endif
+        @if(session('message'))
+            <div class="alert-message" style="margin-top: 5px">
+                {{ session('message') }}
+            </div>
+        @endif
+        @yield('content')
 </div>
 {{--footer--}}
 <!--شروع فوتر-->
@@ -131,15 +208,13 @@
         </div>
         <ul class="menu right rt-13">
             <li class="right"><a href="/" class="rt-333 rt">صفحه نخست</a></li>
-            <li class="right"><a href="/#" class="rt-333 rt">ثبت سفارش</a></li>
-            <li class="right"><a href="/#" class="rt-333 rt">سوالات متداول</a></li>
-            <li class="right"><a href="#" class="rt-333 rt">نمونه برگه</a></li>
+            <li class="right"><a href="/cart" class="rt-333 rt">ثبت سفارش</a></li>
             <li class="right"><a href="/about-us" class="rt-333 rt">درباره ما</a></li>
             <li class="right"><a href="/ticket" class="rt-333 rt">پشتیبانی</a></li>
         </ul>
         <div class="namads left">
-            <a href="/"><img src="{{asset('img/n1.png')}}"></a>
-            <a href="/"><img src="{{asset('img/n2.png')}}"></a>
+            <a href="/"><img src="{{asset('img/n1.png')}}" alt="نشان"></a>
+            <a href="/"><img src="{{asset('img/n2.png')}}" alt="نشان"></a>
         </div>
     </div>
 </footer>

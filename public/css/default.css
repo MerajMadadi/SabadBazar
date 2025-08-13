@@ -10040,6 +10040,7 @@ label {
     border: none;
     border-radius: 5px;
 }
+
 .table.tickets-table {
     border-collapse: collapse;
     width: 100%;
@@ -10075,12 +10076,13 @@ label {
     border-radius: 4px;
     font-size: 12px;
 }
- .product-grid {
-     display: flex;
-     flex-wrap: wrap;
-     gap: 1rem;
-     justify-content: flex-start;
- }
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-start;
+}
 
 .product-card {
     width: 230px;
@@ -10183,6 +10185,7 @@ label {
     border-radius: 4px;
     font-size: 14px;
 }
+
 .sidebar {
     position: sticky;
     top: 20px;
@@ -10202,6 +10205,7 @@ label {
 .category-link:hover {
     background-color: #e0e0e0;
 }
+
 .custom-product-wrapper {
     margin-top: 20px;
 }
@@ -10216,7 +10220,7 @@ label {
     border: 1px solid #ddd;
     border-radius: 8px;
     width: calc(25% - 15px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     position: relative;
     display: flex;
@@ -10226,7 +10230,7 @@ label {
 }
 
 .custom-product-card:hover {
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .custom-product-image {
@@ -10320,6 +10324,12 @@ label {
         width: 100%;
     }
 }
+
+#ticket-title-create {
+    margin-top: -35px;
+}
+
+
 .delete-btn-form {
     position: absolute;
     top: 10px;
@@ -10337,3 +10347,563 @@ label {
     font-size: 0.9rem;
     border-radius: 4px;
 }
+
+#index-title {
+    margin-top: -25px;
+}
+
+#h1-show-product {
+    font-weight: bold;
+    color: #4b8106;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+#h1-show-product-n {
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+#h1-show-product-d {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+#h1-show-product-p {
+    margin: 0;
+    font-size: 14px;
+}
+
+#comment-show-product {
+    padding: 15px 0;
+    font-size: 1.55rem;
+    color: white;
+    background: darkorange;
+    width: 25%;
+    border: none
+}
+
+#add-to-cart-show-product {
+    font-size: 17px;
+}
+
+#index-box-discount {
+    margin: 15px
+}
+
+/*//*/
+@media (max-width: 768px) {
+    #index-title {
+        margin-top: 0;
+    }
+    #index-box-discount {
+        margin: 23px
+    }
+
+    .product-card {
+        width: 110px;
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .product-card img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1; /* مربع، اختیاری */
+        object-fit: cover; /* وسط عکس رو نگه می‌داره، اضافی رو برش می‌زنه */
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .payment-method {
+        display: none;
+    }
+
+    .product-card .add-to-cart {
+        display: none;
+    }
+
+    .card-body {
+        height: 80px;
+    }
+
+    #show-products-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1; /* مربع، اختیاری */
+        object-fit: cover; /* وسط عکس رو نگه می‌داره، اضافی رو برش می‌زنه */
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    #h1-show-product {
+        font-weight: bold;
+        color: #4b8106;
+        font-size: 1.7rem;
+        margin-bottom: 20px;
+    }
+
+    #h1-show-product-n {
+        font-weight: bold;
+        font-size: 1.9rem;
+        margin-bottom: 20px;
+    }
+
+    #h1-show-product-d {
+        font-size: 1.3rem;
+        line-height: 1.6;
+        color: #555;
+    }
+
+    #h1-show-product-p {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    #add-to-cart-show-product {
+        font-size: 15px;
+    }
+
+    #comment-show-product {
+        /*padding: 15px 0;*/
+        font-size: 15px;
+        color: white;
+        background: darkorange;
+        width: 30%;
+        border: none
+    }
+
+    #product-card-products {
+        width: 100px;
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    #subject {
+        height: 38px;
+    }
+
+    #ticket-title-create {
+        margin-top: -15px;
+    }
+}
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .visible-xs {
+        display: block !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .visible-xs {
+        display: none !important;
+    }
+}
+
+#reply-ticket-form {
+    width: 10%;
+}
+
+#close-ticket-form {
+    width: 10%
+}
+
+@media screen and (max-width: 768px) {
+    #reply-ticket-form {
+        width: 50%;
+    }
+
+    #close-ticket-form {
+        width: 50%
+    }
+
+    .table-responsive-custom table,
+    .table-responsive-custom thead,
+    .table-responsive-custom tbody,
+    .table-responsive-custom th,
+    .table-responsive-custom td,
+    .table-responsive-custom tr {
+        display: block;
+        width: 100%;
+    }
+
+    .table-responsive-custom thead {
+        display: none;
+    }
+
+    .table-responsive-custom tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+    }
+
+    .table-responsive-custom td {
+        text-align: right;
+        padding: 10px;
+        position: relative;
+    }
+
+    .table-responsive-custom td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #org-admin-container{
+        margin-top: 0;
+    }
+
+    .cart-table-wrapper table,
+    .cart-table-wrapper thead,
+    .cart-table-wrapper tbody,
+    .cart-table-wrapper th,
+    .cart-table-wrapper td,
+    .cart-table-wrapper tr {
+        display: block;
+        width: 100%;
+    }
+
+    .cart-table-wrapper thead {
+        display: none;
+    }
+
+    .cart-table-wrapper tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+    }
+
+    .cart-table-wrapper td {
+        text-align: right;
+        padding: 10px;
+        position: relative;
+    }
+
+    .cart-table-wrapper td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+ .users-table-wrapper table,
+    .users-table-wrapper thead,
+    .users-table-wrapper tbody,
+    .users-table-wrapper th,
+    .users-table-wrapper td,
+    .users-table-wrapper tr {
+        display: block;
+        width: 100%;
+    }
+
+    .users-table-wrapper thead {
+        display: none;
+    }
+
+    .users-table-wrapper tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+    }
+
+    .users-table-wrapper td {
+        text-align: right;
+        padding: 10px;
+        position: relative;
+    }
+
+    .users-table-wrapper td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    /*orders table*/
+    .order-table-wrapper table,
+    .order-table-wrapper thead,
+    .order-table-wrapper tbody,
+    .order-table-wrapper th,
+    .order-table-wrapper td,
+    .order-table-wrapper tr {
+        display: block;
+        width: 100%;
+    }
+
+    .order-table-wrapper thead {
+        display: none;
+    }
+
+    .order-table-wrapper tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        background: #fff;
+    }
+
+    #id-orders {
+        display: none;
+    }
+
+    /*information order table*/
+    .information-order-table-wrapper table,
+    .information-order-table-wrapper thead,
+    .information-order-table-wrapper tbody,
+    .information-order-table-wrapper th,
+    .information-order-table-wrapper td,
+    .information-order-table-wrapper tr {
+        display: block;
+        width: 100%;
+    }
+
+    .information-order-table-wrapper thead {
+        display: none;
+    }
+
+    .information-order-table-wrapper tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+    }
+
+    .information-order-table-wrapper td {
+        text-align: right;
+        padding: 10px;
+        position: relative;
+    }
+
+}
+.ticket-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+.ticket-panel {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+/* عنوان هدر */
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ticket-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* دکمه ثبت تیکت */
+.ticket-create-btn {
+    font-size: 14px;
+    padding: 8px 15px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.ticket-create-btn:hover {
+    background-color: #218838;
+}
+
+/* متن خالی بودن */
+.ticket-empty-message {
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+/* جدول در دسکتاپ */
+.ticket-table td,
+.ticket-table th {
+    text-align: center;
+    vertical-align: middle;
+}
+#my_products_row{
+    margin-top: 50px;
+}
+
+/* ✅ حالت موبایل */
+@media (max-width: 768px) {
+    #my_products_row{
+        margin-top: 0px;
+    }
+    .ticket-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .ticket-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .ticket-create-btn {
+        width: 100%;
+    }
+
+    .ticket-table thead {
+        display: none;
+    }
+
+    .ticket-table tbody,
+    .ticket-row {
+        display: block;
+        width: 100%;
+    }
+
+    .ticket-row {
+        background: #f9f9f9;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px;
+    }
+
+    .ticket-row td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border: none !important;
+        font-size: 14px;
+    }
+
+    .ticket-row td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #555;
+        margin-left: 10px;
+    }
+}
+/* برای موبایل */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none; /* پنهان پیش‌فرض */
+        background: #fff;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+    .sidebar.active {
+        display: block; /* وقتی کاربر بازش کرد */
+    }
+    .category-toggle-btn {
+        display: block;
+        margin-bottom: 10px;
+    }
+}
+
+/* برای دسکتاپ */
+@media (min-width: 769px) {
+    #toggleCategories{
+        display: none;
+    }
+    .category-toggle-btn {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .custom-product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* دو ستون در موبایل */
+        gap: 10px;
+    }
+    .custom-product-card {
+        font-size: 14px;
+    }
+}
+@media (max-width: 480px) {
+    .custom-product-grid {
+        grid-template-columns: 1fr; /* یک ستون در موبایل کوچک */
+    }
+}
+.alert-message {
+    background-color: #d4edda; /* سبز ملایم */
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .alert-message {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+}
+/* ساختار کلی باکس‌ها */
+.admin-dashboard-box {
+    margin-bottom: 15px;
+}
+
+/* اسکرول جدول در موبایل */
+.admin-dashboard-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* فونت کوچک‌تر در موبایل */
+@media (max-width: 768px) {
+    .admin-dashboard-panel .panel-body h2 {
+        font-size: 18px;
+    }
+    .admin-dashboard-table th,
+    .admin-dashboard-table td {
+        font-size: 13px;
+        white-space: nowrap;
+    }
+}
+

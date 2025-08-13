@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdditionalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TicketController;
@@ -19,70 +21,37 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
-/*user*/
-Route::middleware('role.user')->group(function () {
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-});
-/**/
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [UserController::class, 'show_profile'])->name('show.profile');
-    Route::put('/profile/update', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/profile/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
-});
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/register/user', [UserController::class, 'register'])->name('register.user');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/register', [UserController::class, 'register_index'])->name('index.register');
 Route::get('/login', [UserController::class, 'login_index'])->name('index.login');
+
+/*user*/
+Route::middleware('role.user')->group(function () {
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+});
+/*auth*/
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserController::class, 'show_profile'])->name('show.profile');
+    Route::put('/profile/update', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/profile/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
+});
 /*customer*/
 Route::middleware(['role.customer'])->group(function () {
     Route::post('/cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/{id}', [CartController::class, 'delete'])->name('cart.delete');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/comment/{product}', [CommentController::class, 'store'])->name('comment.store');
-    Route::get('/ticket', function () {
-        return view('ticket');
-    });
+    Route::get('/ticket', [TicketController::class, 'ticket']);
     Route::post('/ticket/', [TicketController::class, 'store'])->name('ticket.store');
-    Route::get('/my-tickets', function () {
-        $tickets = Ticket::where('user_id', Auth::id())->latest()->paginate(10);
-        return view('my-tickets', compact('tickets'));
-    });
+    Route::get('/my-tickets', [TicketController::class, 'my_tickets']);
     Route::get('/ticket/{ticket}', [TicketController::class, 'show'])->name('ticket.show');
     Route::get('/payment/form', [PaymentController::class, 'showForm'])->name('payment.form');
     Route::post('/payment', [PaymentController::class, 'process'])->name('payment.process');
-    Route::get('/orders', function () {
-        $orders = Transaction::where('user_id', Auth::id())->latest()->get();
-        $customer = Auth::user();
-        return view('orders', compact('orders', 'customer'));
-    })->name('customer.orders');
-    Route::get('/order/{id}', function ($id) {
-        $transaction = Transaction::where('user_id', Auth::id())->with(['cart.cartItems' => function ($query) {
-            $query->withTrashed();
-        }, 'cart.cartItems.product'])
-            ->where('id', $id)
-            ->firstOrFail();
+    Route::get('/orders', [OrderController::class, 'orders_index'])->name('customer.orders');
+    Route::get('/order/{id}', [OrderController::class, 'order_show'])->name('order.show');
 
-        return view('information-order', compact('transaction'));
-    })->name('order.show');
-
-});
-/**/
-Route::get('/about-us', function () {
-    return view('about-us');
-});
-Route::get('/feq', function () {
-    return view('feq');
-});
-Route::get('/', [CommentController::class, 'index'])->name('index');
-Route::get('/search', [ProductController::class, 'search'])->name('search');
-
-Route::get('/contact-us', function () {
-    return view('contact-us');
-});
-Route::get('/page', function () {
-    return view('page');
 });
 
 Route::get('/product/show/{id}', [ProductController::class, 'show'])->name('product.show');
@@ -93,23 +62,13 @@ Route::middleware(['role.seller'])->group(function () {
     Route::post('/category/add', [CategoryController::class, 'store'])->name('category.store');
     Route::post('/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::delete('/category/delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
-    Route::get('/product-create', function () {
-        $categories = Category::all();
-        return view('product-create', compact('categories'));
-    });
+    Route::get('/product-create', [ProductController::class, 'create']);
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
     Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
     Route::delete('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
-    Route::get('my-products', function () {
-        $categories = Category::all();
-        $products = auth()->user()->products()->latest()->get();
-        return view('my-products', compact('products', 'categories'));
-    });
+    Route::get('my-products', [ProductController::class, 'seller_index']);
 });
-
-/*Admin and seller*/
-/**/
 /*admin*/
 Route::middleware(['role.admin'])->prefix('/panel')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -145,7 +104,12 @@ Route::middleware(['role.admin'])->prefix('/panel')->group(function () {
     Route::get('/products/restore/{id}', [AdminController::class, 'restore_product'])->name('admin.product.restore');
 });
 /**/
-
+Route::get('/about-us', [AdditionalController::class, 'aboutUs']);
+Route::get('/feq', [AdditionalController::class, 'feq']);
+Route::get('/', [AdditionalController::class, 'index'])->name('index');
+Route::get('/search', [ProductController::class, 'search'])->name('search');
+Route::get('/page', [AdditionalController::class, 'page']);
+//
 
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);

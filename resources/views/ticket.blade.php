@@ -22,21 +22,11 @@
     }
 </style>
 @section('content')
-    <section class="products rt-relative rt-overflow rt">
+    <section class="products rt-relative rt-overflow rt"  style="border-radius: 20px;margin-top: 10px">
         <div class="main">
-            <h3 class="title-asli rt rt-bold rt-333 rt-relative rt-23 rt-align">ارسال تیکت جدید</h3>
+            <h3 id="ticket-title-create" class="title-asli rt rt-bold rt-333 rt-relative rt-23 rt-align">ارسال تیکت جدید</h3>
 
-            @if ($errors->any())
-                <div class="alert alert-danger rt rt-14 rt-8px">
-                    <ul class="rt rt-right">
-                        @foreach ($errors->all() as $error)
-                            <li class="rt rt-666">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form action="{{route('ticket.store')}}" method="POST"
+            <form action="{{route('ticket.store')}}" method="POST" onsubmit="this.querySelector('button').disabled = true;"
                   class="rt rt-10px rt-bg rt-shadow rt-15px rt-relative rt-overflow" style="padding: 20px;">
                 @csrf
                 <div class="form-group rt rt-align-right rt-10px">

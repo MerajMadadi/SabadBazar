@@ -5,21 +5,13 @@
     {{--    قابلیت مشاهده برای همه جز فروشنده و مدیر--}}
     <section class="products rt-relative rt-overflow rt" style="margin-top: 10px;border-radius: 20px">
         <div class="main">
-            @if ($errors->any())
-                <ul class="px-4 py-2 bg-red-100 text-red-600 rounded">
-                    @foreach($errors->all() as $error)
-                        <li style="text-align: center;margin-bottom: 40px;color: red;font-size: 16px" class="my-2">
-                            <b><b>_</b> {{ $error }}</b></li>
-                    @endforeach
-                </ul>
-            @endif
-            <h3 style="margin-top: -25px" class="title-assign rt rt-bold rt-333 rt-relative rt-23 rt-align">فروش
+            <h3 id="index-title" class="title-assign rt rt-bold rt-333 rt-relative rt-23 rt-align">فروش
                 ویژه</h3>
             <div class="flexbox">
                 <div class="entry rt">
                     <div class="product-grid">
                         @foreach($products as $product)
-                            <div class="product-card" style="margin:15px">
+                            <div id="index-box-discount" class="product-card">
                                 @if($product->discount > 0)
                                     <div class="discount-badge">{{ toPersianNumber($product->discount) }}٪ تخفیف</div>
                                 @endif
@@ -73,111 +65,79 @@
         </div>
     </section>
     @enduser
-    <!--پایان محصولات-->
     @seller
-    {{--    یه باکس جهت مطالعه فروشندگان--}}
-    <section style="height: 20cm;margin-top: 40px">
-        <div class="main">
-            <div style="margin-top: -40px" class="inside right rt-absolute">
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="panel panel-default rt-shadow">
-                            <div class="panel-heading rt-bg rt-fff rt-bold rt-18">
-                                قوانین و توصیه‌های مهم برای فروشندگان
-                            </div>
-                            <div class="panel-body rt-14 rt-444" style="line-height: 2;">
-                                <p>فروشندگان گرامی، لطفاً جهت حفظ نظم، اعتماد مشتریان و ارتقاء کیفیت خدمات، نکات زیر را
-                                    با
-                                    دقت مطالعه و رعایت فرمایید:</p>
-
-                                <div id="rulesPreview" class="rules-collapse rt-13 rt-666"
-                                     style="max-height: 180px; overflow: hidden; position: relative;">
-                                    <ul style="list-style: square; padding-right: 20px;">
-                                        <li><strong>شفافیت در قیمت‌گذاری و موجودی:</strong> قیمت کالاها باید واقعی، دقیق
-                                            و
-                                            به‌روز باشند.
-                                        </li>
-                                        <li><strong>توضیحات کامل:</strong> مشخصات فنی، ویژگی‌ها، ابعاد و کارکرد محصولات
-                                            را
-                                            شفاف بنویسید.
-                                        </li>
-                                        <li><strong>استفاده از تصاویر باکیفیت:</strong> از عکس‌های واضح و غیر
-                                            گمراه‌کننده
-                                            برای محصولات استفاده نمایید.
-                                        </li>
-                                        <li><strong>پاسخگویی مؤثر:</strong> به سوالات و پیام‌های کاربران با احترام و در
-                                            کوتاه‌ترین زمان پاسخ دهید.
-                                        </li>
-                                        <li><strong>ارسال سریع و منظم:</strong> کالاها باید در زمان مشخص‌شده ارسال شده و
-                                            کد
-                                            رهگیری برای مشتری ارسال شود.
-                                        </li>
-                                        <li><strong>پشتیبانی پس از فروش:</strong> در صورت بروز مشکل، مسئولانه و محترمانه
-                                            پاسخگو باشید.
-                                        </li>
-                                        <li><strong>پرهیز از کالاهای ممنوعه:</strong> از فروش محصولات غیرمجاز یا مغایر
-                                            با
-                                            قوانین کشور خودداری نمایید.
-                                        </li>
-                                        <li><strong>رضایت مشتری را در اولویت قرار دهید:</strong> مشتری راضی، سرمایه
-                                            پایدار
-                                            شماست.
-                                        </li>
-                                    </ul>
-
-                                    <p class="rt-14 rt-666" style="margin-top: 20px;">
-                                        هدف ما ایجاد بستری امن، منظم و سودمند برای تمامی کاربران است. با رعایت این اصول،
-                                        تجربه‌ای حرفه‌ای برای خریداران و فروشندگان رقم خواهیم زد.
-                                    </p>
-
-                                    <blockquote class="rt-13 rt-italic rt-444"
-                                                style="border-right: 3px solid #337ab7; padding-right: 15px; margin-top: 30px;">
-                                        «با رعایت اصول حرفه‌ای، خرید و فروش آنلاین را به تجربه‌ای لذت‌بخش و قابل‌اعتماد
-                                        تبدیل کنیم.»
-                                    </blockquote>
-
-                                    <div class="fade-gradient"
-                                         style="position: absolute; bottom: 0; right: 0; left: 0; height: 50px; background: linear-gradient(to top, white, transparent);"></div>
-                                </div>
-
-                                <div class="text-center mt-3">
-                                    <button id="toggleRules"
-                                            class="btn btn-default rt-all rt-color rt-bold rt-15 rt-8px">
-                                        مشاهده بیشتر
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <section class="seller-dashboard rt-rt-relative rt-rt-overflow"
+                 style="margin: 20px 0; border-radius: 20px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 8px 20px rgba(0,0,0,0.15); padding: 25px 20px; transition: box-shadow 0.3s ease;">
+            <div class="seller-dashboard__container main rt-flex rt-flex-wrap rt-justify-between">
+                <div class="seller-dashboard__item rt-flex-1 rt-min-w-200px rt-mb-15px">
+                    <h4 class="seller-dashboard__title rt-rt-bold rt-333">فروش کل</h4>
+                    <p class="seller-dashboard__value rt-rt-26 rt-rt-bold rt-color-primary">{{ toPersianNumber(number_format($total ?? 0)) }}
+                        تومان</p>
                 </div>
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const toggleBtn = document.getElementById('toggleRules');
-                        const rulesBox = document.getElementById('rulesPreview');
-                        let expanded = false;
-
-                        toggleBtn.addEventListener('click', function () {
-                            expanded = !expanded;
-                            if (expanded) {
-                                rulesBox.style.maxHeight = 'none';
-                                rulesBox.querySelector('.fade-gradient').style.display = 'none';
-                                toggleBtn.textContent = 'بستن';
-                            } else {
-                                rulesBox.style.maxHeight = '180px';
-                                rulesBox.querySelector('.fade-gradient').style.display = 'block';
-                                toggleBtn.textContent = 'مشاهده بیشتر';
-                            }
-                        });
-                    });
-                </script>
-                <br><br>
-
+                <div style="margin-top: 10px" class="seller-dashboard__item rt-flex-1 rt-min-w-200px rt-mb-15px">
+                    <h4 class="seller-dashboard__title rt-rt-bold rt-333">تعداد محصولات فعال</h4>
+                    <p class="seller-dashboard__value rt-rt-26 rt-rt-bold rt-color-primary">{{ toPersianNumber($products_count ?? 0) }}</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <style>
+            /* استایل زیبا برای پنل فروشنده */
+            .seller-dashboard {
+                border: 1px solid #d1d9e6;
+                border-radius: 20px;
+            }
+
+            .seller-dashboard:hover {
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+            }
+
+            .seller-dashboard__container > div {
+                background: #fff;
+                border-radius: 16px;
+                padding: 20px 25px;
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                cursor: default;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .seller-dashboard__container > div:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 14px 24px rgba(33, 150, 243, 0.3);
+                background: #e3f2fd;
+            }
+
+            .seller-dashboard__title {
+                margin-bottom: 10px;
+                font-size: 1.1rem;
+                color: #333;
+            }
+
+            .seller-dashboard__value {
+                font-size: 1.8rem;
+                color: #1976d2;
+                font-weight: 700;
+                user-select: text;
+            }
+
+            /* ریسپانسیو */
+            @media (max-width: 768px) {
+                .seller-dashboard__container {
+                    flex-direction: column;
+                }
+
+                .seller-dashboard__item {
+                    min-width: 100% !important;
+                    margin-bottom: 15px;
+                }
+            }
+        </style>
     @endseller
+
+
+
+    <!--پایان محصولات-->
     {{--    نمایش مراکز تحویل --}}
     <section class="sellers rt rt-relative rt-overflow">
         <div class="main">

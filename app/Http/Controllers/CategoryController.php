@@ -43,7 +43,6 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        Product::where('category_id', $id)->delete();
 
         return redirect()->back()->with('success', 'دسته‌بندی با موفقیت حذف شد.');
     }

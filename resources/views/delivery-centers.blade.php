@@ -3,11 +3,6 @@
 @section('title', 'مراکز تحویل')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success" style="margin-top: 10px;">
-            {{ session('success') }}
-        </div>
-    @endif
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('center.create') }}" class="btn btn-success">افزودن مرکز تحویل جدید</a>
     </div>

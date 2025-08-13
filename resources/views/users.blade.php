@@ -3,20 +3,11 @@
 @section('title', 'مدیریت کاربران')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success" style="margin-top: 10px;">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session('message'))
-        <div class="alert alert-info" style="margin-top: 10px;">
-            {{ session('message') }}
-        </div>
-    @endif
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <table class="table table-bordered table-striped">
+            <div class="users-table-wrapper">
+            <table class="users_table table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -30,16 +21,16 @@
                 <tbody>
                 @forelse($users as $user)
                     <tr>
-                        <td>{{ toPersianNumber($user->id) }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
+                        <td data-label="id">{{ toPersianNumber($user->id) }}</td>
+                        <td data-label="نام">{{ $user->name }}</td>
+                        <td data-label="ایمیل">{{ $user->email }}</td>
+                        <td data-label="نقش">
                             {{ $user->roles()->first()?->name ?? '---' }}
                         </td>
                         @php
 
                         @endphp
-                        <td>{{ $user->created_at_jalali }}</td>
+                        <td data-label="تاریخ ورود">{{ $user->created_at_jalali }}</td>
                         <td>
                             <a href="{{ route('user.admin.show', $user->id) }}" class="btn btn-xs btn-info">مشاهده</a>
                             @if (!empty($user->deleted_at)){{

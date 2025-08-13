@@ -12,18 +12,30 @@
 </head>
 <body>
 <div class="container" style="margin-top: 50px;">
+    <div class="visible-xs">
+        <button class="btn btn-default btn-block" id="toggle-categories">نمایش دسته‌بندی‌ها</button>
+        <div id="mobile-categories" style="display: none; margin-top: 10px">
+            @foreach($categories as $category)
+                <a class="btn btn-sm btn-primary btn-block" href="#category-{{ $category->id }}" style="margin-bottom: 5px;background: #4B8106">
+                    {{ $category->name }}
+                </a>
+            @endforeach
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#toggle-categories').click(function () {
+                $('#mobile-categories').slideToggle();
+            });
+        });
+    </script>
+
     <div class="row">
         <!-- نوار کناری دسته‌بندی‌ها -->
         <div class="col-md-3">
             <div class="sidebar">
                 <h4 style="border-bottom: 1px solid #ccc; padding-bottom: 10px;">دسته‌بندی‌ها</h4>
-                @if ($errors->any())
-                    <ul class="px-4 py-2 bg-red-100 text-red-600 rounded">
-                        @foreach($errors->all() as $error)
-                            <li style="color: red;font-size: 16px" class="my-2"><b>_</b> {{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
+
                 @foreach($categories as $category)
                     <a class="category-link" href="#category-{{ $category->id }}">{{ $category->name }}  </a>
                     @auth
@@ -107,7 +119,7 @@
 
                     <div class="product-grid">
                         @foreach($category->products as $product)
-                            <div class="product-card" style="margin: 20px">
+                            <div id="product-card-products" class="product-card" style="margin: 20px">
                                 @if($product->discount > 0)
                                     <div class="discount-badge">{{ toPersianNumber($product->discount) }}٪ تخفیف</div>
                                 @endif

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 @section('content')
     <!--شروع برگه-->
     <section class="rt-page rt-relative rt-overflow rt">

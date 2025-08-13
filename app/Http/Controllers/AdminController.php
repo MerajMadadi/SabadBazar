@@ -45,13 +45,13 @@ class AdminController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
-            'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
             'store_name' => $request->store_name,
             'store_phone' => $request->store_phone,
             'store_address' => $request->store_address,
             'license_number' => $request->license_number,
         ]);
-        if (!empty($request->role)) {
+//        تغییر نقش کاربر
+        if ($request->role) {
             $user->roles()->detach();
             $user->roles()->attach($request->role);
         }
@@ -89,6 +89,7 @@ class AdminController extends Controller
     public function show_product(string $id)
     {
         $product = Product::withTrashed()->where('id', $id)->firstOrFail();
+//        گرفتن میانگین امتیازات
         $averageRating = $product->comments()->avg('rate') ?? 0;
         $comments = Comment::withTrashed()->where('product_id', $id)->get();
 
@@ -144,10 +145,7 @@ class AdminController extends Controller
     public function delete_product(string $id)
     {
         $product = Product::findOrFail($id);
-//        if ($product->image_url) {
-//            $imagePath = str_replace('/storage/', 'public/', $product->image_url);
-//            Storage::delete($imagePath);
-//        }
+       //        عکس ها رو برای امنیت حذف نمیکنیم
         $product->delete();
 
         return redirect('/panel/products')->with('با موفقیت حذف شد');
@@ -157,7 +155,8 @@ class AdminController extends Controller
     {
         $product = Product::withTrashed()->where('id',$id)->firstOrFail();
         $product->restore();
-        return redirect()->route('admin.products');
+        return redirect()->route('admin.products')->with('success', 'محصول با موفقیت بازگردانی شد.');
+        ;
     }
 
     public function store_category(CategoryCreateRequest $request)
@@ -172,25 +171,21 @@ class AdminController extends Controller
 
     public function update_category(CategoryCreateRequest $request, string $id)
     {
-        $request->validate([
-            'name' => 'nullable|string|min:3|max:255',
-        ]);
         $category = Category::findOrFail($id);
         $category->update([
             'name' => $request->name,
         ]);
-        $path = '/panel/products#id-' . $category->id;
 
-        return redirect($path);
+        return redirect('/panel/products#id-' . $category->id)->with('updated_category_id', $id)
+            ->with('custom-success', 'دسته‌بندی ویرایش شد.');
     }
 
     public function delete_category(string $id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        Product::where('category_id', $id)->delete();
 
-        return redirect('/panel/products#categories')->with('<UNK> <UNK> <UNK> <UNK>');
+        return redirect('/panel/products#categories')->with('custom-d-success', 'دسته‌بندی حذف شد.');
     }
 
     public function dashboard()
@@ -218,11 +213,13 @@ class AdminController extends Controller
     public function delivery_center_store(StoreDeliveryCenterRequest $request)
     {
         if ($request->hasFile('image')) {
+
             $file = $request->file('image');
             $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('public/delivery-images', $fileName);
             $publicPath = Storage::url($path);
-        } else $publicPath = null;
+        }
+        else $publicPath = null;
 
         DeliveryCenters::create([
             'name' => $request->name,
